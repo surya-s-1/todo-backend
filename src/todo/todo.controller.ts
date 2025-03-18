@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTaskDto, DeleteTaskDto, ModifyTaskDto } from './dto/task.dto';
+import { AuthGuard } from 'src/auth/auth.gaurd';
 
+@UseGuards(AuthGuard)
 @Controller('todo')
 export class TodoController {
     constructor(private readonly todoService: TodoService) {}
@@ -20,7 +22,7 @@ export class TodoController {
 
     @Put('modify')
     modifyTask(@Body() modifyTaskDto: ModifyTaskDto) {
-        const { task_id, title, description, deadline = null, completed } = modifyTaskDto
+        const { task_id, title, description = null, deadline = null, completed = false } = modifyTaskDto
 
         return this.todoService.modifyTask(task_id, title, description, deadline, completed)
     }
