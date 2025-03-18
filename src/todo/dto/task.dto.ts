@@ -37,7 +37,7 @@ export class ModifyTaskDto {
 }
 
 export class DeleteTaskDto {
-    @IsBoolean()
+    @IsUUID()
     @IsNotEmpty()
     task_id: string;
 }

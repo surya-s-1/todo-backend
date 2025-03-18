@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common'
+import { ConflictException, Injectable, InternalServerErrorException, Logger, UnauthorizedException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Task } from './entities/task.entity'
@@ -51,13 +51,24 @@ export class TodoService {
         }
     }
 
-    async modifyTask(task_id: string, title: string, description: string | null, deadline: Date | null, completed: boolean) {
+    async modifyTask(user_id: string, task_id: string, title: string, description: string | null, deadline: Date | null, completed: boolean) {
         try {
+            const task = await this.taskRepository.findOne({ where: { id: task_id } })
+
+            if (task?.user.id !== user_id) {
+                throw new UnauthorizedException('Current user not authorized to modify task')
+            }
+
             await this.taskRepository.update({ id: task_id}, { title, description, deadline, completed })
 
             return task_id
         } catch (error) {
             this.logger.error(error)
+
+            if (error instanceof UnauthorizedException) {
+                throw error
+            }
+
             throw new InternalServerErrorException('Failed to modify task')
         }
     }
