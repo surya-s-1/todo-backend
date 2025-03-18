@@ -6,8 +6,8 @@ import * as bcrypt from 'bcrypt'
 import { User } from './entities/user.entity'
 
 @Injectable()
-export class TodoService {
-    private readonly logger = new Logger(TodoService.name)
+export class AuthService {
+    private readonly logger = new Logger(AuthService.name)
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
