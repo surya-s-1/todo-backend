@@ -16,7 +16,11 @@ export class TodoService {
     ) {}
 
     listTasks(username: string) {
-        return this.taskRepository.find({ where: { user: { username: username } } })
+        try {
+            return this.taskRepository.find({ where: { user: { username: username } } })
+        } catch (error) { 
+            this.logger.error(error) 
+        }
     }
 
     async createTask(username: string, title: string, description: string | null, deadline: Date | null) {
@@ -48,14 +52,22 @@ export class TodoService {
     }
 
     async modifyTask(task_id: string, title: string, description: string, deadline: Date | null, completed: boolean) {
-        await this.taskRepository.update({ id: task_id}, { title, description, deadline, completed })
+        try {
+            await this.taskRepository.update({ id: task_id}, { title, description, deadline, completed })
 
-        return task_id
+            return task_id
+        } catch (error) {
+            this.logger.error(error)
+        }
     }
 
     async deleteTask(task_id: string) {
-        await this.taskRepository.delete({ id: task_id})
+        try {
+            await this.taskRepository.delete({ id: task_id})
 
-        return task_id
+            return task_id
+        } catch (error) {         
+            this.logger.error(error)
+        }
     }
 }
