@@ -51,14 +51,8 @@ export class TodoService {
         }
     }
 
-    async modifyTask(user_id: string, task_id: string, title: string, description: string | null, deadline: Date | null, completed: boolean) {
+    async updateTask(task_id: string, title: string, description: string | null, deadline: Date | null, completed: boolean) {
         try {
-            const task = await this.taskRepository.findOne({ where: { id: task_id } })
-
-            if (task?.user.id !== user_id) {
-                throw new UnauthorizedException('Current user not authorized to modify task')
-            }
-
             await this.taskRepository.update({ id: task_id}, { title, description, deadline, completed })
 
             return task_id
@@ -69,7 +63,7 @@ export class TodoService {
                 throw error
             }
 
-            throw new InternalServerErrorException('Failed to modify task')
+            throw new InternalServerErrorException('Failed to update task')
         }
     }
 

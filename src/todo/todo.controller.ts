@@ -20,11 +20,11 @@ export class TodoController {
         return this.todoService.createTask(req?.user_id, title, description, deadline)
     }
 
-    @Put('modify')
-    modifyTask(@Body() modifyTaskDto: ModifyTaskDto, @Req() req) {
+    @Put('update')
+    updateTask(@Body() modifyTaskDto: ModifyTaskDto) {
         const { task_id, title, description = null, deadline = null, completed = false } = modifyTaskDto
         
-        return this.todoService.modifyTask(req?.user_id, task_id, title, description, deadline, completed)
+        return this.todoService.updateTask(task_id, title, description, deadline, completed)
     }
 
     @Delete('delete/:task_id')
