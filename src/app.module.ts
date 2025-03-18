@@ -5,6 +5,8 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { AuthModule } from './auth/auth.module'
 import { User } from './auth/entities/user.entity'
+import { TodoModule } from './todo/todo.module';
+import { Task } from './todo/entities/task.entity'
 
 @Module({
   imports: [
@@ -19,12 +21,13 @@ import { User } from './auth/entities/user.entity'
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        entities: [User],
+        entities: [User, Task],
         synchronize: true,
         logging: true
       })
     }),
-    AuthModule
+    AuthModule,
+    TodoModule
   ],
   controllers: [AppController],
   providers: [AppService],
