@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, Logger } from '@nestjs/common'
+import { ConflictException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Task } from './entities/task.entity'
@@ -19,7 +19,8 @@ export class TodoService {
         try {
             return this.taskRepository.find({ where: { user: { username: username } } })
         } catch (error) { 
-            this.logger.error(error) 
+            this.logger.error(error)
+            throw new InternalServerErrorException('Failed to list tasks')
         }
     }
 
@@ -48,6 +49,7 @@ export class TodoService {
             }
 
             this.logger.error(error)
+            throw new InternalServerErrorException('Failed to create task')
         }
     }
 
@@ -58,6 +60,7 @@ export class TodoService {
             return task_id
         } catch (error) {
             this.logger.error(error)
+            throw new InternalServerErrorException('Failed to modify task')
         }
     }
 
@@ -68,6 +71,7 @@ export class TodoService {
             return task_id
         } catch (error) {         
             this.logger.error(error)
+            throw new InternalServerErrorException('Failed to delete task')
         }
     }
 }
