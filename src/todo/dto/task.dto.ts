@@ -5,14 +5,14 @@ export class ListTasksDto {
 export class CreateTaskDto {
     username: string;
     title: string;
-    description: string;
+    description: string | null;
     deadline: Date | null;
 }
 
 export class ModifyTaskDto {
     task_id: string;
     title: string;
-    description: string;
+    description: string | null;
     deadline: Date | null;
     completed: boolean;
 }

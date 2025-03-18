@@ -53,7 +53,7 @@ export class TodoService {
         }
     }
 
-    async modifyTask(task_id: string, title: string, description: string, deadline: Date | null, completed: boolean) {
+    async modifyTask(task_id: string, title: string, description: string | null, deadline: Date | null, completed: boolean) {
         try {
             await this.taskRepository.update({ id: task_id}, { title, description, deadline, completed })
 
