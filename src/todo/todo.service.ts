@@ -15,21 +15,19 @@ export class TodoService {
         private readonly userRespository: Repository<User>,
     ) {}
 
-    listTasks(username: string) {
+    listTasks(user_id: string) {
         try {
-            return this.taskRepository.find({ where: { user: { username: username } } })
+            return this.taskRepository.find({ where: { user: { id: user_id } } })
         } catch (error) { 
             this.logger.error(error)
             throw new InternalServerErrorException('Failed to list tasks')
         }
     }
 
-    async createTask(username: string, title: string, description: string | null, deadline: Date | null) {
+    async createTask(user_id: string, title: string, description: string | null, deadline: Date | null) {
         try {
             const task = new Task()
-            const user = await this.userRespository.findOne({ where: { username: username } })
-
-            this.logger.debug(user)
+            const user = await this.userRespository.findOne({ where: { id: user_id } })
 
             if (!user) {
                 throw new ConflictException('User not found')

@@ -1,21 +1,21 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
 import { TodoService } from './todo.service';
-import { CreateTaskDto, DeleteTaskDto, ListTasksDto, ModifyTaskDto } from './dto/task.dto';
+import { CreateTaskDto, DeleteTaskDto, ModifyTaskDto } from './dto/task.dto';
 
 @Controller('todo')
 export class TodoController {
     constructor(private readonly todoService: TodoService) {}
 
-    @Get('list/:username')
-    listTasks(@Param() params: ListTasksDto) {
-        return this.todoService.listTasks(params.username)
+    @Get('list')
+    listTasks(@Req() req) {
+        return this.todoService.listTasks(req?.user_id)
     }
 
     @Post('create')
-    createTask(@Body() createTaskDto: CreateTaskDto) {
-        const { username, title, description = null, deadline = null } = createTaskDto
+    createTask(@Body() createTaskDto: CreateTaskDto, @Req() req) {
+        const { title, description = null, deadline = null } = createTaskDto
 
-        return this.todoService.createTask(username, title, description, deadline)
+        return this.todoService.createTask(req?.user_id, title, description, deadline)
     }
 
     @Put('modify')
