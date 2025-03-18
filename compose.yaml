@@ -13,6 +13,23 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  
+  backend:
+    image: suryas1/todo-backend:1.0.0
+    container_name: todo_backend
+    restart: unless-stopped
+    environment:
+      JWT_SECRET: MY_SECET_KEY
+      DB_TYPE: postgres
+      DB_USERNAME: user
+      DB_PASSWORD: password
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: todo
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
 
 volumes:
   pgdata:
