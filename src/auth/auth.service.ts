@@ -57,8 +57,7 @@ export class AuthService {
             const payload = { username: user.username, sub: user.id }
 
             return {
-                access_token: await this.jwtService.signAsync({ ...payload, type: 'access_token' }, { expiresIn: '30m' }),
-                refresh_token: await this.jwtService.signAsync({ ...payload, type: 'refresh_token' }, { expiresIn: '1d' })
+                access_token: await this.jwtService.signAsync({ ...payload, type: 'access_token' }, { expiresIn: '30m' })
             }
 
         } catch (error) {
