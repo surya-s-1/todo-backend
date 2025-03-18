@@ -27,15 +27,15 @@ export class TodoService {
     async createTask(username: string, title: string, description: string | null, deadline: Date | null) {
         try {
             const task = new Task()
-            const user = await this.userRespository.find({ where: { username: username } })
+            const user = await this.userRespository.findOne({ where: { username: username } })
 
             this.logger.debug(user)
 
-            if (!user.length) {
+            if (!user) {
                 throw new ConflictException('User not found')
             }
 
-            task.user = user[0]
+            task.user = user
             task.title = title
             task.description = description
             task.deadline = deadline
