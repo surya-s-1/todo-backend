@@ -57,7 +57,8 @@ export class AuthService {
             const payload = { username: user.username, sub: user.id }
 
             return {
-                access_token: await this.jwtService.signAsync({ ...payload, type: 'access_token' }, { expiresIn: '30m' })
+                access_token: await this.jwtService.signAsync({ ...payload, type: 'access_token' }, { expiresIn: '30m' }),
+                refresh_token: await this.jwtService.signAsync({ ...payload, type: 'refresh_token' }, { expiresIn: '1d' })
             }
 
         } catch (error) {
@@ -68,6 +69,35 @@ export class AuthService {
             }
 
             throw new InternalServerErrorException('Failed to login user')
+        }
+    }
+
+    async refreshToken(token: string) {
+        try {
+            const payload = await this.jwtService.verifyAsync(token.replace('Bearer ', ''))
+            
+            if (payload.type !== 'refresh_token') {
+                throw new UnauthorizedException('Invalid token type')
+            }
+
+            const user = await this.userRepository.findOne({ where: { id: payload.sub } })
+            
+            if (!user) {
+                throw new UnauthorizedException('User does not exist')
+            }
+
+            return {
+                access_token: await this.jwtService.signAsync({ username: user.username, sub: user.id, type: 'access_token' }, { expiresIn: '30m' })
+            }
+
+        } catch (error) {
+            this.logger.error(error)
+            
+            if (error instanceof UnauthorizedException) {
+                throw error
+            }
+
+            throw new InternalServerErrorException('Failed to refresh token')
         }
     }
 }
