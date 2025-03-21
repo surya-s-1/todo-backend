@@ -22,6 +22,9 @@ export class Task {
     @Column({ type: 'boolean', default: false })
     completed: boolean;
 
+    @Column({ type: 'char', length: 7, nullable: true })
+    color_code: string | null;
+
     @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date;
 }

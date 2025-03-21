@@ -12,5 +12,6 @@ CREATE TABLE IF NOT EXISTS tasks (
     deadline TIMESTAMP,
     completed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    color_code CHAR(7) DEFAULT '#FFFFFF',
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
