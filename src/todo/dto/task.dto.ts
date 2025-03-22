@@ -12,6 +12,14 @@ export class CreateTaskDto {
     @IsDateString()
     @IsOptional()
     deadline: Date | null;
+
+    @IsBoolean()
+    @IsOptional()
+    completed: boolean;
+
+    @IsString()
+    @IsOptional()
+    color_code: string | null;
 }
 
 export class ModifyTaskDto {
@@ -34,6 +42,10 @@ export class ModifyTaskDto {
     @IsBoolean()
     @IsOptional()
     completed: boolean;
+
+    @IsString()
+    @IsOptional()
+    color_code: string | null;
 }
 
 export class DeleteTaskDto {
