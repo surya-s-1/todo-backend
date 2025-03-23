@@ -28,8 +28,8 @@ export class TodoController {
     }
 
     @Put('mark-complete')
-    markCompleteTask(@Body() modifyTaskDto: MarkCompleteDto) {
-        const { task_id, completed } = modifyTaskDto
+    markCompleteTask(@Body() markCompleteDto: MarkCompleteDto) {
+        const { task_id, completed } = markCompleteDto
         
         return this.todoService.markComplete(task_id, completed)
     }
