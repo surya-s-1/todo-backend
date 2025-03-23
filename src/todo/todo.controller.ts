@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { TodoService } from './todo.service';
-import { CreateTaskDto, DeleteTaskDto, ModifyTaskDto } from './dto/task.dto';
+import { CreateTaskDto, DeleteTaskDto, MarkCompleteDto, ModifyTaskDto } from './dto/task.dto';
 import { AuthGuard } from 'src/auth/auth.gaurd';
 
 @UseGuards(AuthGuard)
@@ -25,6 +25,13 @@ export class TodoController {
         const { task_id, title, description = null, deadline = null, completed = false, color_code = null } = modifyTaskDto
         
         return this.todoService.updateTask(task_id, title, description, deadline, completed, color_code)
+    }
+
+    @Put('mark-complete')
+    markCompleteTask(@Body() modifyTaskDto: MarkCompleteDto) {
+        const { task_id, completed } = modifyTaskDto
+        
+        return this.todoService.markComplete(task_id, completed)
     }
 
     @Delete('delete/:task_id')

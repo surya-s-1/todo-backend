@@ -68,6 +68,17 @@ export class TodoService {
         }
     }
 
+    async markComplete(task_id: string, completed: boolean) {
+        try {
+            await this.taskRepository.update({ id: task_id }, { completed: completed })
+
+            return task_id
+        } catch (error) {         
+            this.logger.error(error)
+            throw new InternalServerErrorException('Failed to delete task')
+        }
+    }
+
     async deleteTask(task_id: string) {
         try {
             await this.taskRepository.delete({ id: task_id})

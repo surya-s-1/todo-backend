@@ -48,6 +48,16 @@ export class ModifyTaskDto {
     color_code: string | null;
 }
 
+export class MarkCompleteDto {
+    @IsUUID()
+    @IsNotEmpty()
+    task_id: string;
+
+    @IsBoolean()
+    @IsNotEmpty()
+    completed: boolean;
+}
+
 export class DeleteTaskDto {
     @IsUUID()
     @IsNotEmpty()
