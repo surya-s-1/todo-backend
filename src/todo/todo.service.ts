@@ -24,7 +24,7 @@ export class TodoService {
         }
     }
 
-    async createTask(user_id: string, title: string, description: string | null, deadline: Date | null) {
+    async createTask(user_id: string, title: string, description: string | null, deadline: Date | null, color_code: string | null) {
         try {
             const task = new Task()
             const user = await this.userRespository.findOne({ where: { id: user_id } })
@@ -37,6 +37,7 @@ export class TodoService {
             task.title = title
             task.description = description
             task.deadline = deadline
+            task.color_code = color_code
 
             await this.taskRepository.save(task)
             return task.id
@@ -51,9 +52,9 @@ export class TodoService {
         }
     }
 
-    async updateTask(task_id: string, title: string, description: string | null, deadline: Date | null, completed: boolean) {
+    async updateTask(task_id: string, title: string, description: string | null, deadline: Date | null, completed: boolean, color_code: string | null) {
         try {
-            await this.taskRepository.update({ id: task_id}, { title, description, deadline, completed })
+            await this.taskRepository.update({ id: task_id}, { title, description, deadline, completed, color_code })
 
             return task_id
         } catch (error) {

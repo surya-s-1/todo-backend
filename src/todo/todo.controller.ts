@@ -15,16 +15,16 @@ export class TodoController {
 
     @Post('create')
     createTask(@Body() createTaskDto: CreateTaskDto, @Req() req) {
-        const { title, description = null, deadline = null } = createTaskDto
+        const { title, description = null, deadline = null, color_code = null } = createTaskDto
 
-        return this.todoService.createTask(req?.user_id, title, description, deadline)
+        return this.todoService.createTask(req?.user_id, title, description, deadline, color_code)
     }
 
     @Put('update')
     updateTask(@Body() modifyTaskDto: ModifyTaskDto) {
-        const { task_id, title, description = null, deadline = null, completed = false } = modifyTaskDto
+        const { task_id, title, description = null, deadline = null, completed = false, color_code = null } = modifyTaskDto
         
-        return this.todoService.updateTask(task_id, title, description, deadline, completed)
+        return this.todoService.updateTask(task_id, title, description, deadline, completed, color_code)
     }
 
     @Delete('delete/:task_id')
