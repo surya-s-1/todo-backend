@@ -100,4 +100,14 @@ export class AuthService {
             throw new InternalServerErrorException('Failed to refresh token')
         }
     }
+
+    async checkUserExists(id: string) {
+        try {
+            const user = await this.userRepository.findOne({ where: { id: id }})
+            return user ? true : false
+        } catch (error) {
+            this.logger.error(error)
+            throw new InternalServerErrorException('Failed to check user')
+        }
+    }
 }
