@@ -56,7 +56,9 @@ export class TodoService {
         try {
             const task = await this.taskRepository.findOne({ where: { id: task_id }})
 
-            if (!task || task.user.id !== user_id) return
+            if (!task || task.user.id !== user_id) {
+                throw new UnauthorizedException('Task not found or user not authorized')
+            }
 
             await this.taskRepository.update({ id: task_id}, { title, description, deadline, completed, color_code })
 
