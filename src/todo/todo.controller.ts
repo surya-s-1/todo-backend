@@ -21,10 +21,10 @@ export class TodoController {
     }
 
     @Put('update')
-    updateTask(@Body() modifyTaskDto: ModifyTaskDto) {
+    updateTask(@Body() modifyTaskDto: ModifyTaskDto, @Req() req) {
         const { task_id, title, description = null, deadline = null, completed = false, color_code = null } = modifyTaskDto
         
-        return this.todoService.updateTask(task_id, title, description, deadline, completed, color_code)
+        return this.todoService.updateTask(req?.user_id, task_id, title, description, deadline, completed, color_code)
     }
 
     @Put('mark-complete')

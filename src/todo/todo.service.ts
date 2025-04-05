@@ -52,8 +52,12 @@ export class TodoService {
         }
     }
 
-    async updateTask(task_id: string, title: string, description: string | null, deadline: Date | null, completed: boolean, color_code: string | null) {
+    async updateTask(user_id: string, task_id: string, title: string, description: string | null, deadline: Date | null, completed: boolean, color_code: string | null) {
         try {
+            const task = await this.taskRepository.findOne({ where: { id: task_id }})
+
+            if (!task || task.user.id !== user_id) return
+
             await this.taskRepository.update({ id: task_id}, { title, description, deadline, completed, color_code })
 
             return task_id

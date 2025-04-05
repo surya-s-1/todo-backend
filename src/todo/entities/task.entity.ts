@@ -10,7 +10,7 @@ export class Task {
     @JoinColumn({ name: 'user_id' })
     user: User;
 
-    @Column({ type: 'varchar', length: 255, nullable: false })
+    @Column({ type: 'varchar', length: 100, nullable: false })
     title: string;
 
     @Column({ type: 'text', nullable: true })

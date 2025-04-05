@@ -1,12 +1,14 @@
-import { IsBoolean, IsDateString, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
+import { IsBoolean, IsDateString, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength } from "class-validator";
 
 export class CreateTaskDto {
     @IsString()
     @IsNotEmpty()
+    @MaxLength(100)
     title: string;
 
     @IsString()
     @IsOptional()
+    @MaxLength(1000)
     description: string | null;
 
     @IsDateString()
@@ -29,10 +31,12 @@ export class ModifyTaskDto {
 
     @IsString()
     @IsNotEmpty()
+    @MaxLength(100)
     title: string;
 
     @IsString()
     @IsOptional()
+    @MaxLength(1000)
     description: string | null;
 
     @IsDateString()
