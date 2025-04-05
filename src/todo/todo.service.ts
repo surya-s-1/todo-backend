@@ -42,12 +42,12 @@ export class TodoService {
             await this.taskRepository.save(task)
             return task.id
         } catch (error) {
+            this.logger.error(error)
 
             if (error instanceof ConflictException) {
                 throw error
             }
 
-            this.logger.error(error)
             throw new InternalServerErrorException('Failed to create task')
         }
     }
@@ -74,24 +74,46 @@ export class TodoService {
         }
     }
 
-    async markComplete(task_id: string, completed: boolean) {
+    async markComplete(user_id: string, task_id: string, completed: boolean) {
         try {
-            await this.taskRepository.update({ id: task_id }, { completed: completed })
+            const task = await this.taskRepository.findOne({ where: { id: task_id, user: { id: user_id } }})
+
+            if (!task) {
+                throw new UnauthorizedException('Task not found or user not authorized')
+            }
+
+            await this.taskRepository.update({ id: task_id, user: { id: user_id } }, { completed: completed })
 
             return task_id
         } catch (error) {         
             this.logger.error(error)
-            throw new InternalServerErrorException('Failed to delete task')
+
+            if (error instanceof UnauthorizedException) {
+                throw error
+            }
+
+            throw new InternalServerErrorException('Failed to update task')
         }
     }
 
-    async deleteTask(task_id: string) {
+    async deleteTask(user_id: string, task_id: string) {
         try {
-            await this.taskRepository.delete({ id: task_id})
+            const task = await this.taskRepository.findOne({ where: { id: task_id, user: { id: user_id } }})
+
+            if (!task) {
+                throw new UnauthorizedException('Task not found or user not authorized')
+            }
+
+            await this.taskRepository.delete({ id: task_id, user: { id: user_id } })
 
             return task_id
         } catch (error) {         
             this.logger.error(error)
+
+            if (error instanceof UnauthorizedException) {
+                throw error
+            }
+
             throw new InternalServerErrorException('Failed to delete task')
         }
     }

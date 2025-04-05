@@ -28,14 +28,14 @@ export class TodoController {
     }
 
     @Put('mark-complete')
-    markCompleteTask(@Body() markCompleteDto: MarkCompleteDto) {
+    markCompleteTask(@Body() markCompleteDto: MarkCompleteDto, @Req() req) {
         const { task_id, completed } = markCompleteDto
         
-        return this.todoService.markComplete(task_id, completed)
+        return this.todoService.markComplete(req?.user_id, task_id, completed)
     }
 
     @Delete('delete/:task_id')
-    deleteTask(@Param() params: DeleteTaskDto) {
-        return this.todoService.deleteTask(params.task_id)
+    deleteTask(@Param() params: DeleteTaskDto,@Req() req) {
+        return this.todoService.deleteTask(req?.user_id, params.task_id)
     }
 }
