@@ -1,34 +1,18 @@
-services:
-  postgres:
-    image: postgres:16-alpine
-    container_name: todo_db
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: todo
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-  
+services:  
   backend:
     image: suryas1/todo-backend:1.0.0
     container_name: todo_backend
     restart: unless-stopped
     environment:
-      JWT_SECRET: MY_SECET_KEY
+      JWT_SECRET: SUPER_SECRET
       DB_TYPE: postgres
-      DB_USERNAME: user
-      DB_PASSWORD: password
-      DB_HOST: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: 
+      DB_HOST: db.rbjlwpswzinzskvkqgul.supabase.co
       DB_PORT: 5432
-      DB_DATABASE: todo
+      DB_DATABASE: postgres
     ports:
       - "3000:3000"
-    depends_on:
-      - postgres
 
 volumes:
   pgdata:
