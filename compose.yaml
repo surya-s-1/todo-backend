@@ -6,10 +6,10 @@ services:
     environment:
       JWT_SECRET: SUPER_SECRET
       DB_TYPE: postgres
-      DB_USERNAME: postgres
+      DB_USERNAME: postgres.rbjlwpswzinzskvkqgul
       DB_PASSWORD: 
-      DB_HOST: db.rbjlwpswzinzskvkqgul.supabase.co
-      DB_PORT: 5432
+      DB_HOST: aws-0-ap-south-1.pooler.supabase.com
+      DB_PORT: 6543
       DB_DATABASE: postgres
     ports:
       - "3000:3000"
