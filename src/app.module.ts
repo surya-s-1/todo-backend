@@ -22,7 +22,6 @@ import { Task } from './todo/entities/task.entity'
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
         entities: [User, Task],
-        synchronize: true,
         logging: true
       })
     }),
