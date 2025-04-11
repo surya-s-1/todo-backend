@@ -12,9 +12,9 @@ async function bootstrap() {
     })
   );
   app.enableCors({
-    origin: '*',
+    origin: 'https://surya-s-1.github.io',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: '*',
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
   })
   await app.listen(process.env.PORT ?? 3000);
